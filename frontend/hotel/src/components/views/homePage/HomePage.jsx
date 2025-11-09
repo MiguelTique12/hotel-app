@@ -26,8 +26,8 @@ function HomePage() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const hotelsResponse = await http.get('http://localhost:9000/api/hotels');
-        const hotelRoomsResponse = await http.get('http://localhost:9000/api/hotel-rooms');
+        const hotelsResponse = await http.get('https://hotel-app-xnzj.onrender.com/api/hotels');
+        const hotelRoomsResponse = await http.get('https://hotel-app-xnzj.onrender.com/api/hotel-rooms');
 
         setHotels(hotelsResponse.data);
         setHotelRooms(hotelRoomsResponse.data);

@@ -3,7 +3,7 @@ import axios from 'axios';
 import authService from "../../services/authService";
 
 // Definir endpoints y configuración para las peticiones
-const API_URL = 'http://localhost:9000/api';
+const API_URL = 'https://hotel-app-xnzj.onrender.com/api';
 const ENDPOINTS = {
   USERS: `${API_URL}/users`,
   HOTELS: `${API_URL}/hotels`,

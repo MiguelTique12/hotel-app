@@ -11,7 +11,7 @@ import {
 import axios from 'axios';
 import authService from '../../services/authService';
 
-const API_URL = 'http://localhost:9000/api';
+const API_URL = 'https://hotel-app-xnzj.onrender.com/api';
 const ENDPOINTS = {
     HOTELS: `${API_URL}/hotels`,
     HOTEL_ROOMS: `${API_URL}/hotel-rooms`,

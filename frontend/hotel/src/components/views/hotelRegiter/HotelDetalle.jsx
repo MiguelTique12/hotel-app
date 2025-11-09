@@ -26,8 +26,8 @@ const HotelDetalle = () => {
     const fetchHotelDetails = async () => {
         setLoading(true);
         try {
-            const hotelResponse = await http.get(`http://localhost:9000/api/hotels/${id}`);
-            const hotelRoomsResponse = await http.get('http://localhost:9000/api/hotel-rooms');
+            const hotelResponse = await http.get(`https://hotel-app-xnzj.onrender.com/api/hotels/${id}`);
+            const hotelRoomsResponse = await http.get('https://hotel-app-xnzj.onrender.com/api/hotel-rooms');
 
             setHotel(hotelResponse.data);
 

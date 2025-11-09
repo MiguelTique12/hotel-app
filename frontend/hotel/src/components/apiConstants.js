@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://localhost:9000/api';
+export const API_BASE_URL = 'https://hotel-app-xnzj.onrender.com/api';
 
 export const ENDPOINTS = {
     PUBLIC: {

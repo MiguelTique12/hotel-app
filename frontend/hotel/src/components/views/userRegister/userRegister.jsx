@@ -34,7 +34,7 @@ const UsuariosRegister = () => {
   // Función para obtener la lista de usuarios
   const fetchUsers = async () => {
     try {
-      const response = await http.get('http://localhost:9000/api/users');
+      const response = await http.get('https://hotel-app-xnzj.onrender.com/api/users');
       setUsers(response.data);
     } catch (error) {
       console.error('Error al obtener usuarios:', error);
@@ -142,7 +142,7 @@ const UsuariosRegister = () => {
       };
 
       // Realizar la petición POST
-      await http.post('http://localhost:9000/api/users', userData);
+      await http.post('https://hotel-app-xnzj.onrender.com/api/users', userData);
 
       // Mostrar mensaje de éxito
       setMessage({

@@ -3,8 +3,8 @@ import axios from 'axios';
 import authService from './authService';
 
 const publicEndpoints = [
-    'http://localhost:9000/api/hotels',
-    'http://localhost:9000/api/hotel-rooms'
+    'https://hotel-app-xnzj.onrender.com/api/hotels',
+    'https://hotel-app-xnzj.onrender.com/api/hotel-rooms'
 ];
 
 const isPublicEndpoint = (url) => {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:9000/api';
+const API_URL = 'https://hotel-app-xnzj.onrender.com/api';
 
 const TOKEN_KEY = 'auth_token';
 
