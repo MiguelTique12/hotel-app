@@ -1,10 +1,10 @@
-// src/services/httpInterceptor.js
 import axios from 'axios';
 import authService from './authService';
+import {ENDPOINTS} from "../../config/api";
 
 const publicEndpoints = [
-    'https://hotel-app-xnzj.onrender.com/api/hotels',
-    'https://hotel-app-xnzj.onrender.com/api/hotel-rooms'
+    ENDPOINTS.HOTELS,
+    ENDPOINTS.HOTEL_ROOMS
 ];
 
 const isPublicEndpoint = (url) => {

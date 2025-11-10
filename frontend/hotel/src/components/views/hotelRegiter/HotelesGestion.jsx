@@ -5,12 +5,10 @@ import {
     MapPin,
     Bed,
     Eye,
-    Edit,
-    Trash2,
-    Star,
-    Search
+    Star
 } from 'lucide-react';
 import http from '../../services/httpInterceptor';
+import {ENDPOINTS} from "../../../config/api";
 
 const HotelesGestion = () => {
     const navigate = useNavigate();
@@ -27,8 +25,8 @@ const HotelesGestion = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const hotelsResponse = await http.get('https://hotel-app-xnzj.onrender.com/api/hotels');
-            const hotelRoomsResponse = await http.get('https://hotel-app-xnzj.onrender.com/api/hotel-rooms');
+            const hotelsResponse = await http.get(ENDPOINTS.HOTELS);
+            const hotelRoomsResponse = await http.get(ENDPOINTS.HOTEL_ROOMS);
 
             setHotels(hotelsResponse.data);
             setHotelRooms(hotelRoomsResponse.data);
@@ -68,19 +66,6 @@ const HotelesGestion = () => {
                     <p className="section-description">
                         Administre y visualice los detalles de todos los hoteles registrados
                     </p>
-                </div>
-            </div>
-
-            <div className="search-bar-container">
-                <div className="search-bar">
-                    <Search size={20} className="search-bar-icon" />
-                    <input
-                        type="text"
-                        placeholder="Buscar por nombre o ciudad..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="search-bar-input"
-                    />
                 </div>
             </div>
 

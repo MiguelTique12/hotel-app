@@ -10,6 +10,7 @@ import {
   Calendar
 } from 'lucide-react';
 import http from '../../services/httpInterceptor';
+import { ENDPOINTS } from '../../../config/api'
 
 function HomePage() {
   const navigate = useNavigate();
@@ -26,8 +27,8 @@ function HomePage() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const hotelsResponse = await http.get('https://hotel-app-xnzj.onrender.com/api/hotels');
-        const hotelRoomsResponse = await http.get('https://hotel-app-xnzj.onrender.com/api/hotel-rooms');
+        const hotelsResponse = await http.get(ENDPOINTS.HOTELS);
+        const hotelRoomsResponse = await http.get(ENDPOINTS.HOTEL_ROOMS);
 
         setHotels(hotelsResponse.data);
         setHotelRooms(hotelRoomsResponse.data);
@@ -166,10 +167,6 @@ function HomePage() {
                                 </p>
                               </div>
 
-                              <button className="availability-button">
-                                <Calendar size={18} />
-                                <span>Ver disponibilidad</span>
-                              </button>
                             </div>
                           </div>
                       );

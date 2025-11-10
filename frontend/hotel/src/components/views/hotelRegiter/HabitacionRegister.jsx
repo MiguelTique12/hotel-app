@@ -10,14 +10,7 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import authService from '../../services/authService';
-
-const API_URL = 'https://hotel-app-xnzj.onrender.com/api';
-const ENDPOINTS = {
-    HOTELS: `${API_URL}/hotels`,
-    HOTEL_ROOMS: `${API_URL}/hotel-rooms`,
-    ROOMS: `${API_URL}/rooms`,
-    HOTEL_ROOMS_ASIGNAR: `${API_URL}/hotel-rooms/asignar`
-};
+import { ENDPOINTS } from '../../../config/api';
 
 const getAuthConfig = () => {
     const token = authService.getToken();
@@ -31,6 +24,7 @@ const HabitacionRegister = () => {
     const [selectedHotelId, setSelectedHotelId] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(false);
+    const [searchLoading, setSearchLoading] = useState(false); // ✅ NUEVO
     const [message, setMessage] = useState({ text: '', type: '' });
     const [errors, setErrors] = useState({});
 
@@ -55,18 +49,35 @@ const HabitacionRegister = () => {
         { value: 'CUADRUPLE', label: 'Acomodación Cuádruple' }
     ];
 
+    // ✅ CARGAR TODOS LOS HOTELES AL INICIO
     useEffect(() => {
-        fetchHotels();
+        fetchAllHotels();
         fetchRooms();
         fetchHotelRooms();
     }, []);
 
-    const fetchHotels = async () => {
+    // ✅ DEBOUNCE: Buscar automáticamente 2 segundos después de que el usuario deje de escribir
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (searchTerm.trim() !== '') {
+                searchHotels(searchTerm);
+            } else {
+                fetchAllHotels(); // Si borra todo, traer todos los hoteles
+            }
+        }, 2000); // 2 segundos
+
+        return () => clearTimeout(timer); // Limpia el timer anterior
+    }, [searchTerm]);
+
+    const fetchAllHotels = async () => {
         try {
+            setSearchLoading(true);
             const response = await axios.get(ENDPOINTS.HOTELS);
             setHotels(response.data);
         } catch (error) {
             console.error('Error al obtener hoteles:', error);
+        } finally {
+            setSearchLoading(false);
         }
     };
 
@@ -85,6 +96,20 @@ const HabitacionRegister = () => {
             setHotelRooms(response.data);
         } catch (error) {
             console.error('Error al obtener asignaciones:', error);
+        }
+    };
+
+    // ✅ BUSCAR HOTELES EN EL BACKEND
+    const searchHotels = async (query) => {
+        try {
+            setSearchLoading(true);
+            const response = await axios.get(`${ENDPOINTS.HOTEL_SEARCH}?query=${query}`);
+            setHotels(response.data);
+        } catch (error) {
+            console.error('Error al buscar hoteles:', error);
+            setHotels([]);
+        } finally {
+            setSearchLoading(false);
         }
     };
 
@@ -291,11 +316,6 @@ const HabitacionRegister = () => {
         return hotelRooms.filter(hr => hr.hotel.id === hotelId);
     };
 
-    const filteredHotels = hotels.filter(hotel =>
-        hotel.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        hotel.city.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
     return (
         <div className="content-section">
             <div className="section-header">
@@ -325,14 +345,28 @@ const HabitacionRegister = () => {
                             <Search size={18} />
                             <span>Buscar Hotel</span>
                         </label>
-                        <input
-                            type="text"
-                            id="hotelSearch"
-                            placeholder="Buscar por nombre o ciudad..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="search-bar-input"
-                        />
+                        <div style={{ position: 'relative' }}>
+                            <input
+                                type="text"
+                                id="hotelSearch"
+                                placeholder="Buscar por nombre o ciudad..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="search-bar-input"
+                            />
+                            {searchLoading && (
+                                <span style={{
+                                    position: 'absolute',
+                                    right: '10px',
+                                    top: '50%',
+                                    transform: 'translateY(-50%)',
+                                    fontSize: '12px',
+                                    color: '#999'
+                                }}>
+                                    Buscando...
+                                </span>
+                            )}
+                        </div>
                     </div>
 
                     <div className="form-group">
@@ -350,15 +384,24 @@ const HabitacionRegister = () => {
                                 }
                             }}
                             className={errors.hotel ? 'input-error' : ''}
+                            disabled={searchLoading}
                         >
                             <option value="">-- Seleccione un hotel --</option>
-                            {filteredHotels.map(hotel => (
+                            {/* ✅ AHORA USA DIRECTAMENTE 'hotels' SIN FILTRAR */}
+                            {hotels.map(hotel => (
                                 <option key={hotel.id} value={hotel.id}>
                                     {hotel.name} - {hotel.city}
                                 </option>
                             ))}
                         </select>
                         {errors.hotel && <span className="error-message">{errors.hotel}</span>}
+
+                        {/* ✅ MENSAJE SI NO HAY RESULTADOS */}
+                        {!searchLoading && searchTerm && hotels.length === 0 && (
+                            <span style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
+                                No se encontraron hoteles con "{searchTerm}"
+                            </span>
+                        )}
                     </div>
 
                     {selectedHotelId && (
@@ -374,6 +417,7 @@ const HabitacionRegister = () => {
                 </div>
             </div>
 
+            {/* ... RESTO DEL CÓDIGO SIN CAMBIOS ... */}
             {selectedHotelId && (
                 <>
                     <div className="form-container">

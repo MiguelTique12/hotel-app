@@ -3,6 +3,7 @@ package com.hoteleria.hoteleria.controller;
 import com.hoteleria.hoteleria.model.Hotel;
 import com.hoteleria.hoteleria.service.interfaces.IHotelService;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.service.GenericResponseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class HotelController {
 
   private final IHotelService hotelService;
+  private final GenericResponseService responseBuilder;
 
   @GetMapping("/{id}")
   public ResponseEntity<Hotel> getHotelById(@PathVariable UUID id) {
@@ -41,4 +43,8 @@ public class HotelController {
     }
   }
 
+  @GetMapping("/search")
+  public ResponseEntity<List<Hotel>> searchHotels(@RequestParam String query) {
+    return ResponseEntity.ok(hotelService.findByNameOrCity(query));
+  }
 }

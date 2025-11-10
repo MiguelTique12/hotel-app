@@ -34,4 +34,9 @@ public class HotelService implements IHotelService {
     }
     return hotelRepository.save(hotel);
   }
+
+  @Override
+  public List<Hotel> findByNameOrCity(String search) {
+    return hotelRepository.findByNameOrCity(search);
+  }
 }

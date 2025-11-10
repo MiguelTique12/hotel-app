@@ -11,5 +11,6 @@ public interface IHotelService {
   Optional<Hotel> findHotelById(UUID id);
   List<Hotel> findAllHotels();
   Hotel save(Hotel hotel);
+  List<Hotel> findByNameOrCity(String search);
 
 }

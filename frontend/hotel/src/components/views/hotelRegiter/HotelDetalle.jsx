@@ -10,6 +10,7 @@ import {
     DollarSign
 } from 'lucide-react';
 import http from '../../services/httpInterceptor';
+import { ENDPOINTS } from '../../../config/api'
 
 const HotelDetalle = () => {
     const { id } = useParams();
@@ -26,8 +27,8 @@ const HotelDetalle = () => {
     const fetchHotelDetails = async () => {
         setLoading(true);
         try {
-            const hotelResponse = await http.get(`https://hotel-app-xnzj.onrender.com/api/hotels/${id}`);
-            const hotelRoomsResponse = await http.get('https://hotel-app-xnzj.onrender.com/api/hotel-rooms');
+            const hotelResponse = await http.get(`${ENDPOINTS.HOTELS}/${id}`);
+            const hotelRoomsResponse = await http.get(ENDPOINTS.HOTEL_ROOMS);
 
             setHotel(hotelResponse.data);
 

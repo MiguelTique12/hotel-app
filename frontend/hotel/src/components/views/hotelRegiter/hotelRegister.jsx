@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import authService from "../../services/authService";
-
-const API_URL = 'https://hotel-app-xnzj.onrender.com/api';
-const ENDPOINTS = {
-  HOTELS: `${API_URL}/hotels`,
-  HOTEL_ROOMS: `${API_URL}/hotel-rooms`,
-  ROOMS: `${API_URL}/rooms`,
-  HOTEL_ROOMS_ASIGNAR: `${API_URL}/hotel-rooms/asignar`
-};
+import { ENDPOINTS } from '../../../config/api';
 
 const getAuthConfig = () => {
   const token = authService.getToken();

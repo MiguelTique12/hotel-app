@@ -1,27 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import authService from "../../services/authService";
+import { ENDPOINTS } from '../../../config/api';
 
-// Definir endpoints y configuración para las peticiones
-const API_URL = 'https://hotel-app-xnzj.onrender.com/api';
-const ENDPOINTS = {
-  USERS: `${API_URL}/users`,
-  HOTELS: `${API_URL}/hotels`,
-  HOTEL_ROOMS: `${API_URL}/hotel-rooms`,
-  SALES: `${API_URL}/sales`
-};
-
-// Función para obtener config con token
 const getAuthConfig = () => {
   const token = authService.getToken();
   return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
 };
 
 const RentasRegister = () => {
-  // Estados para el formulario
   const [formData, setFormData] = useState({
     userId: "",
-    hotelId: "", // Nuevo campo para seleccionar hotel
+    hotelId: "",
     hotelRoomId: "",
     startDate: "",
     endDate: "",
